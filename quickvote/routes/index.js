@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-var client = require('redis').createClient();
+const client = require('redis').createClient();
 
 client.on('error', function (err) {
   console.log('Error ' + err);
@@ -10,14 +10,15 @@ client.on('error', function (err) {
 /* GET home page. */
 router.get('/', function(req, res, next) {
   client.get('current_vote', function (err, reply) {
-    console.log(reply);
     if (err || reply == null) {
       if (err) {
         console.log(err);
       }
       res.render('nocurrent');
     } else {
-      res.render('index', { title: 'QuickVote', question: reply });
+      var vote = JSON.parse(reply);
+      console.log(vote);
+      res.render('index', { title: 'QuickVote', question: vote.q, answers: vote.a });
     }
   });
 });

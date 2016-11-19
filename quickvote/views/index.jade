@@ -4,3 +4,6 @@ block content
   h1= title
   p The current vote question is:
   p= question
+  form(action="/vote" method="POST")
+    each ans in answers
+      input(type="submit" value="#{ans}")
