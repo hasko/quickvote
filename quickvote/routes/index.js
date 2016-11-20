@@ -25,7 +25,16 @@ router.get('/', function(req, res, next) {
           res.render('nocurrent');
         } else {
           var vote = JSON.parse(reply);
-          res.render('index', { title: 'QuickVote', question: vote.q, answers: vote.a, action: "/vote" });
+          client.ttl('vote:' + curId, function (err, ttl) {
+            if (err) {
+              console.log("Error getting TTL:", err); // FIXME Use debug.
+            }            
+            if (ttl == null) {
+              console.log("Error, TTL is null");
+              ttl = -1;
+            }
+            res.render('index', { title: 'QuickVote', question: vote.q, answers: vote.a, action: "/vote", ttl: ttl });
+          })
         }
       });
     }
