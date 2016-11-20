@@ -3,8 +3,10 @@ extends layout
 block content
   h1= title
   p The current vote question is:
-  p= question
+  p.lead(class="text-primary")= question
   form(action=action method="POST")
-    each ans in answers
-      input(type="submit" value="#{ans}")
-  p This vote expires in #{ttl} seconds.
+    div.container
+      div.row
+        each ans in answers
+          button(class="btn btn-default col-xs-6 col-md-4", type="submit")= ans
+  p.info This vote expires in #{ttl} seconds.
