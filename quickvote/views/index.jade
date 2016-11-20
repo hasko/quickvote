@@ -4,9 +4,9 @@ block content
   h1= title
   p The current vote question is:
   p.lead(class="text-primary")= question
-  form(action=action method="POST")
-    div.container
+  div.container
+    form(action=action, method="POST", enctype='application/x-www-form-urlencoded')
       div.row
         each ans in answers
-          button(class="btn btn-default col-xs-6 col-md-4", type="submit")= ans
+          button(class="btn btn-default col-xs-6 col-md-4", name="answer", value=ans, type="submit")= ans
   p.info This vote expires in #{ttl} seconds.

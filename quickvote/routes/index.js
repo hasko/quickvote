@@ -14,7 +14,6 @@ router.get('/', function(req, res, next) {
   if (!req.session.isPopulated) {
     req.session.key = randomKey.generate();
   }
-  console.log("Session:", req.session, req.session.isNew);
   client.setnx("vote:next.id", 0);
   client.get("vote:current.id", function (err, curId) {
     if (err || curId == null) {
@@ -23,6 +22,7 @@ router.get('/', function(req, res, next) {
       }
       res.render('nocurrent');
     } else {
+      req.session.voteId = curId;
       client.get('vote:' + curId, function (err, reply) {
         if (err || reply == null) {
           if (err) {
