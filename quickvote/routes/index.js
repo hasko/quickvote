@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
+const randomKey = require('random-key');
+
 const client = require('redis').createClient();
 
 client.on('error', function (err) {
@@ -9,6 +11,10 @@ client.on('error', function (err) {
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+  if (!req.session.isPopulated) {
+    req.session.key = randomKey.generate();
+  }
+  console.log("Session:", req.session, req.session.isNew);
   client.setnx("vote:next.id", 0);
   client.get("vote:current.id", function (err, curId) {
     if (err || curId == null) {
