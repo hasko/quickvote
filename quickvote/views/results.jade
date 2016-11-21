@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  h1 QuickVote Results
+  p The current vote question is:
+  p.lead(class="text-primary")= question
+  ul
+    each count, ans in tally
+      li #{ans}: #{count}
+    
+  p.info This vote expires in #{ttl} seconds.

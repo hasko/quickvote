@@ -21,8 +21,8 @@ router.get('/', function(req, res, next) {
           }
           tally[reply]++;
         });
+        res.render('results', { question: 'FIXME', tally: tally });
         console.log(tally);
-        res.sendStatus(200);
       }
     });
   }
