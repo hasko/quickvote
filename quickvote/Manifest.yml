@@ -1,0 +1,6 @@
+---
+applications:
+- name: quickvote
+  memory: 128M
+  disk_quota: 128M
+  instances: 1
