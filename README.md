@@ -4,8 +4,9 @@ If deployed on a PaaS, remember to set the Redis password (usually injected as a
 
 ## Things to do:
 
-* Graphics for vote results, use D3.js.
 * Admin UI to add new questions, activate questions etc.
+* Prettier result graphics.
 * Dynamic reload as new results come in.
 * Remove possiblitly to change one's vote.
+
 

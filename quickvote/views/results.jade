@@ -8,7 +8,11 @@ block content
     each count, ans in tally
       li #{ans}: #{count}
   
-  svg.chart
+  script.
+    var data = !{JSON.stringify(arr)};
+  div.row
+    div(class="col-xs-12 col-md-12")
+      svg.chart(width="100%" viewBox="0 0 960 500", preserveAspectRatio="xMidYMid meet")
   script(src='https://d3js.org/d3.v3.min.js', charset="utf-8")
   script(src="/javascripts/barchart.js")
 

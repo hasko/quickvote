@@ -1,4 +1,4 @@
-/* global d3 */
+/* global d3, data */
 
 var margin = {top: 20, right: 30, bottom: 30, left: 40},
     width = 960 - margin.left - margin.right,
@@ -19,12 +19,11 @@ var yAxis = d3.svg.axis()
     .orient("left");
 
 var chart = d3.select(".chart")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
+//    .attr("width", width + margin.left + margin.right)
+//    .attr("height", height + margin.top + margin.bottom)
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-d3.tsv("/data.tsv", type, function(error, data) {
   console.log("Data: ", JSON.stringify(data));
   x.domain(data.map(function(d) { return d.name; }));
   y.domain([0, d3.max(data, function(d) { return d.value; })]);
@@ -52,7 +51,6 @@ d3.tsv("/data.tsv", type, function(error, data) {
       .attr("y", function(d) { return y(d.value); })
       .attr("height", function(d) { return height - y(d.value); })
       .attr("width", x.rangeBand());
-});
 
 function type(d) {
   d.value = +d.value; // coerce to number

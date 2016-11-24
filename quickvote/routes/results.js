@@ -21,7 +21,12 @@ router.get('/', function(req, res, next) {
           }
           tally[reply]++;
         });
-        res.render('results', { question: 'FIXME', tally: tally});
+        var arr = [];
+        Object.keys(tally).forEach(function (ans) {
+          var count = tally[ans];
+          arr.push({ name: ans, value: count });
+        });
+        res.render('results', { question: 'FIXME', tally: tally, arr: arr });
       }
     });
   }
