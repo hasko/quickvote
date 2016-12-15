@@ -3,7 +3,13 @@ var router = express.Router();
 
 const randomKey = require('random-key');
 
-const client = require('redis').createClient();
+const vcap = JSON.parse(process.env.VCAP_SERVICES);
+const cred = vcap["p-redis"][0].credentials;
+
+console.log(JSON.stringify(cred));
+
+const redis = require('redis');
+const client = redis.createClient(cred);
 
 client.on('error', function (err) {
   console.log('Error ' + err);
@@ -34,7 +40,7 @@ router.get('/', function(req, res, next) {
           client.ttl('vote:' + curId, function (err, ttl) {
             if (err) {
               console.log("Error getting TTL:", err); // FIXME Use debug.
-            }            
+            }
             if (ttl == null) {
               console.log("Error, TTL is null");
               ttl = -1;

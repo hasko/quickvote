@@ -1,7 +1,11 @@
 var express = require('express');
 var router = express.Router();
 
-const client = require('redis').createClient();
+const vcap = JSON.parse(process.env.VCAP_SERVICES);
+const cred = vcap["p-redis"][0].credentials;
+
+const redis = require('redis');
+const client = redis.createClient(cred);
 
 /* GET users listing. */
 router.post('/', function(req, res, next) {
