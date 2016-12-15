@@ -3,25 +3,23 @@ var router = express.Router();
 
 const randomKey = require('random-key');
 
-const vcap = JSON.parse(process.env.VCAP_SERVICES);
-const cred = vcap["p-redis"][0].credentials;
-
-console.log(JSON.stringify(cred));
-
-const redis = require('redis');
-const client = redis.createClient(cred);
-
-client.on('error', function (err) {
-  console.log('Error ' + err);
-});
+// const vcap = JSON.parse(process.env.VCAP_SERVICES);
+// const cred = vcap["p-redis"][0].credentials;
+//
+// const redis = require('redis');
+// const client = redis.createClient(cred);
+//
+// client.on('error', function (err) {
+//   console.log('Error ' + err);
+// });
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
   if (!req.session.isPopulated) {
     req.session.key = randomKey.generate();
   }
-  client.setnx("vote:next.id", 0);
-  client.get("vote:current.id", function (err, curId) {
+  req.db.setnx("vote:next.id", 0);
+  req.db.get("vote:current.id", function (err, curId) {
     if (err || curId == null) {
       if (err) {
         console.log(err); // FIXME Use debug.
@@ -29,7 +27,7 @@ router.get('/', function(req, res, next) {
       res.render('nocurrent');
     } else {
       req.session.voteId = curId;
-      client.get('vote:' + curId, function (err, reply) {
+      req.db.get('vote:' + curId, function (err, reply) {
         if (err || reply == null) {
           if (err) {
             console.log(err); // FIXME Use debug.
@@ -37,7 +35,7 @@ router.get('/', function(req, res, next) {
           res.render('nocurrent');
         } else {
           var vote = JSON.parse(reply);
-          client.ttl('vote:' + curId, function (err, ttl) {
+          req.db.ttl('vote:' + curId, function (err, ttl) {
             if (err) {
               console.log("Error getting TTL:", err); // FIXME Use debug.
             }
