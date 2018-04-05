@@ -1,0 +1,9 @@
+---
+applications:
+- name: quickvote
+  buildpack: nodejs_buildpack_1_6_17
+  memory: 128M
+  disk_quota: 128M
+  instances: 1
+  services:
+    - session-store

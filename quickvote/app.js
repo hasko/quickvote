@@ -12,17 +12,21 @@ var results = require('./routes/results');
 
 var app = express();
 
+// setup redis
+const vcap = JSON.parse(process.env.VCAP_SERVICES);
+const cred = vcap["p-redis"][0].credentials;
+app.use(require('express-redis')(cred.port, cred.host, { password: cred.password }, 'db'));
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-// uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(cookieSession({ name: 'session', keys: ['3455345'],  
+app.use(cookieSession({ name: 'session', keys: ['3455345'],
   maxAge: 24 * 60 * 60 * 1000 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
