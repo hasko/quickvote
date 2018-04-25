@@ -15,6 +15,7 @@ const randomKey = require('random-key');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+  console.log(req.headers);
   if (!req.session.isPopulated) {
     req.session.key = randomKey.generate();
   }
