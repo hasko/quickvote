@@ -1,7 +1,7 @@
 ---
 applications:
 - name: quickvote
-  buildpack: https://github.com/cloudfoundry/nodejs-buildpack
+  buildpack: nodejs_buildpack
   memory: 128M
   disk_quota: 128M
   instances: 1
